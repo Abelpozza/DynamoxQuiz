@@ -5,9 +5,8 @@ import com.abel.dynamoxquiz.data.remote.AnswerResponse
 import com.abel.dynamoxquiz.data.remote.QuestionDto
 import com.abel.dynamoxquiz.data.remote.QuizApiService
 import com.abel.dynamoxquiz.domain.repository.QuizRepository
-import javax.inject.Inject
 
-class QuizRepositoryImpl @Inject constructor(
+class QuizRepositoryImpl(
     private val apiService: QuizApiService ) : QuizRepository {
 
     override suspend fun getQuestion(): QuestionDto {
