@@ -19,6 +19,12 @@ class QuizViewModel(
     val uiState: StateFlow<QuizUiState> =
         _uiState.asStateFlow()
 
+    private val _isCorrect =
+        MutableStateFlow<Boolean?>(null)
+
+    val isCorrect: StateFlow<Boolean?> =
+        _isCorrect.asStateFlow()
+
     init {
         loadQuestion()
     }
@@ -38,6 +44,33 @@ class QuizViewModel(
                 _uiState.value = QuizUiState(
                     question = question
                 )
+
+            } catch (exception: Exception) {
+
+                _uiState.value = QuizUiState(
+                    error = exception.message
+                )
+            }
+        }
+    }
+
+    fun sendAnswer(answer: String) {
+
+        val questionId =
+            _uiState.value.question?.id ?: return
+
+        viewModelScope.launch {
+
+            try {
+
+                val response =
+                    repository.sendAnswer(
+                        questionId = questionId,
+                        answer = answer
+                    )
+
+                _isCorrect.value =
+                    response.correct
 
             } catch (exception: Exception) {
 

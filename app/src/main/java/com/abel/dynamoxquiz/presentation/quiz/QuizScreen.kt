@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 @Composable
 fun QuizScreen(
     viewModel: QuizViewModel
@@ -67,6 +70,12 @@ fun QuizScreen(
                 val question = uiState.question
                 var selectedOption by remember {
                     mutableStateOf<String?>(null)
+                }
+                var answerChecked by remember {
+                    mutableStateOf(false)
+                }
+                var isCorrect by remember {
+                    mutableStateOf(false)
                 }
 
                 Column(
@@ -117,6 +126,60 @@ fun QuizScreen(
                                     .bodyLarge
                             )
                         }
+                    }
+                    Button(
+
+                        onClick = {
+
+                            if (!answerChecked) {
+
+                                selectedOption?.let {
+
+                                    viewModel.sendAnswer(it)
+
+                                    answerChecked = true
+                                }
+
+                            } else {
+
+                                selectedOption = null
+                                answerChecked = false
+
+                                viewModel.loadQuestion()
+                            }
+                        },
+
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Black,
+                            contentColor = Color.White
+                        ),
+
+                        modifier = Modifier
+                            .padding(top = 24.dp)
+
+                    ) {
+
+                        Text(
+
+                            if (!answerChecked)
+                                "Verificar resposta"
+                            else
+                                "Próxima pergunta"
+                        )
+                    }
+                    if (answerChecked) {
+
+                        Text(
+                            text =
+                                if (isCorrect) "✅Resposta correta✅"
+                            else "❌Resposta incorreta❌",
+                            color = if (isCorrect)
+                            Color(0xFF2E7D32)
+                            else Color.Red,
+                            modifier = Modifier
+                                .padding(top = 16.dp),
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
