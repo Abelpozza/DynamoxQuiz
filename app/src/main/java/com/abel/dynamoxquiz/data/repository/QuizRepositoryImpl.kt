@@ -17,9 +17,15 @@ class QuizRepositoryImpl(
         questionId: String,
         answer: String ):
             AnswerResponse {
+
+        println("QUESTION ID -> $questionId")
+        println("ANSWER -> $answer")
+
         return apiService.submitAnswer(
             questionId = questionId,
-            request = AnswerRequest(answer)
+            request = AnswerRequest(
+                option = answer
+            )
 
 
     )

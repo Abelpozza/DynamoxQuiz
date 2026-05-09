@@ -69,8 +69,10 @@ class QuizViewModel(
                         answer = answer
                     )
 
+                println("RESPOSTA DA API -> $response")
+
                 _isCorrect.value =
-                    response.correct
+                    response.result
 
             } catch (exception: Exception) {
 
