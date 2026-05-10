@@ -43,75 +43,55 @@ fun QuizScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-
         verticalArrangement = Arrangement.Center,
-
         horizontalAlignment =
             Alignment.CenterHorizontally
     ) {
-
         when {
-
             uiState.isLoading -> {
-
                 CircularProgressIndicator()
             }
-
             uiState.error != null -> {
-
                 Text(
                     text = uiState.error ?: "Unknown error",
-
                     color = MaterialTheme
                         .colorScheme
                         .error
                 )
             }
-
             uiState.question != null -> {
 
                 val question = uiState.question
-
                 var selectedOption by remember {
                     mutableStateOf<String?>(null)
                 }
-
                 var answerChecked by remember {
                     mutableStateOf(false)
                 }
-
                 Column(
                     horizontalAlignment =
                         Alignment.CenterHorizontally
                 ) {
-
                     Text(
                         text = question?.statement ?: "",
-
                         style = MaterialTheme
                             .typography
                             .headlineSmall
                     )
-
                     Spacer(
                         modifier = Modifier
                             .padding(8.dp)
                     )
-
                     question?.options?.forEachIndexed { index, option ->
-
                         val optionLetter =
                             ('A' + index)
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 12.dp)
                                 .border(
                                     width = 1.dp,
-
                                     color = Color.Gray,
-
                                     shape =
                                         RoundedCornerShape(12.dp)
                                 )
@@ -123,51 +103,37 @@ fun QuizScreen(
                             verticalAlignment =
                                 Alignment.CenterVertically
                         ) {
-
                             RadioButton(
                                 selected =
                                     selectedOption == option,
-
                                 onClick = {
                                     selectedOption = option
                                 }
                             )
-
                             Spacer(
                                 modifier = Modifier
                                     .width(8.dp)
                             )
-
                             Text(
                                 text =
                                     "$optionLetter) $option",
+
                                 style = MaterialTheme
                                     .typography
                                     .bodyLarge,
                                 fontWeight =
-                                    FontWeight.Bold
+                                    FontWeight.Normal
                             )
                         }
                     }
-
                     Button(
-
                         onClick = {
-
                             if (!answerChecked) {
-
                                 selectedOption?.let {
-
-                                    val answerIndex =
-                                        question?.options
-                                            ?.indexOf(it)
-                                            ?.toString() ?: "0"
-
-                                    viewModel.sendAnswer(
-                                        answerIndex
-                                    )
+                                    viewModel.sendAnswer(it)
                                     answerChecked = true
                                 }
+
                             } else {
                                 selectedOption = null
                                 answerChecked = false

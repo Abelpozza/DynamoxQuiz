@@ -23,9 +23,7 @@ class QuizRepositoryImpl(
 
         return apiService.submitAnswer(
             questionId = questionId,
-            request = AnswerRequest(
-                option = answer
-            )
+            request = AnswerRequest(answer)
 
 
     )

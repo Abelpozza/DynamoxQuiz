@@ -55,27 +55,19 @@ class QuizViewModel(
     }
 
     fun sendAnswer(answer: String) {
-
         val questionId =
             _uiState.value.question?.id ?: return
-
         viewModelScope.launch {
-
             try {
-
                 val response =
                     repository.sendAnswer(
                         questionId = questionId,
                         answer = answer
                     )
-
                 println("RESPOSTA DA API -> $response")
-
                 _isCorrect.value =
                     response.result
-
             } catch (exception: Exception) {
-
                 _uiState.value = QuizUiState(
                     error = exception.message
                 )
