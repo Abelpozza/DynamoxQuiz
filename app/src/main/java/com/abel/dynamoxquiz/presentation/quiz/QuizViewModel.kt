@@ -7,9 +7,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import com.abel.dynamoxquiz.data.local.ScoreDao
+import com.abel.dynamoxquiz.data.local.ScoreEntity
 
 class QuizViewModel(
-    private val repository: QuizRepository
+    private val repository: QuizRepository,
+    private val scoreDao: ScoreDao
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -19,6 +22,12 @@ class QuizViewModel(
     val uiState: StateFlow<QuizUiState> =
         _uiState.asStateFlow()
 
+    private val _nickname =
+        MutableStateFlow("")
+
+    val nickname: StateFlow<String> =
+        _nickname.asStateFlow()
+
     private val _isCorrect =
         MutableStateFlow<Boolean?>(null)
 
@@ -27,6 +36,14 @@ class QuizViewModel(
     val currentQuestion: StateFlow<Int> = _currentQuestion.asStateFlow()
 
     private val _score = MutableStateFlow(0)
+
+    private val _scores =
+        MutableStateFlow<List<ScoreEntity>>(
+            emptyList()
+        )
+
+    val scores: StateFlow<List<ScoreEntity>> =
+        _scores.asStateFlow()
 
     val score: StateFlow<Int> = _score.asStateFlow()
 
@@ -41,6 +58,39 @@ class QuizViewModel(
         loadQuestion()
     }
 
+    private fun saveScore() {
+
+        viewModelScope.launch {
+
+            scoreDao.insertScore(
+
+                ScoreEntity(
+
+                    nickname =
+                        _nickname.value,
+
+                    score =
+                        _score.value
+                )
+            )
+        }
+    }
+
+    fun setNickname(
+        nickname: String
+    ) {
+
+        _nickname.value = nickname
+    }
+
+    fun loadScores() {
+
+        viewModelScope.launch {
+
+            _scores.value =
+                scoreDao.getAllScores()
+        }
+    }
     fun loadQuestion() {
 
         viewModelScope.launch {
@@ -93,7 +143,14 @@ class QuizViewModel(
 
                 if (_currentQuestion.value >= 10) {
 
-                    _quizFinished.value = true
+                   fun finishQuiz() {
+                       saveScore()
+
+                       loadScores()
+
+                       _quizFinished.value = true
+
+                   }
 
                 } else {
 
@@ -122,6 +179,8 @@ class QuizViewModel(
         loadQuestion()
     }
     fun finishQuiz() {
+
+        saveScore()
 
         _quizFinished.value = true
     }

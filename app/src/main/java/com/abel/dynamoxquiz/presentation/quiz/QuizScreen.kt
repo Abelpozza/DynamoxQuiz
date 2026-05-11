@@ -51,6 +51,8 @@ fun QuizScreen(
     viewModel.score.collectAsState()
     val quizFinished by
     viewModel.quizFinished.collectAsState()
+    val scores by
+    viewModel.scores.collectAsState()
 
     Column(
         modifier = Modifier
@@ -123,12 +125,46 @@ fun QuizScreen(
                             modifier = Modifier
                                 .height(32.dp)
                         )
+                        Spacer(
+                            modifier = Modifier
+                                .height(32.dp)
+                        )
 
+                        Text(
+
+                            text = "🏆 Ranking",
+
+                            style = MaterialTheme
+                                .typography
+                                .titleLarge,
+
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(
+                            modifier = Modifier
+                                .height(16.dp)
+                        )
+
+                        scores.take(5).forEach { scoreItem ->
+
+                            Text(
+
+                                text =
+                                    "${scoreItem.nickname} - ${scoreItem.score}/10",
+
+                                style = MaterialTheme
+                                    .typography
+                                    .bodyLarge,
+
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp)
+                            )
+                        }
                         Button(
                             onClick = {
                                 viewModel.restartQuiz()
                             },
-
                             colors =
                                 ButtonDefaults.buttonColors(
                                     containerColor =

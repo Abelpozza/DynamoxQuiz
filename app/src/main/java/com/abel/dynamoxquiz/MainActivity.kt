@@ -14,6 +14,8 @@ import com.abel.dynamoxquiz.presentation.quiz.QuizViewModel
 import com.abel.dynamoxquiz.presentation.quiz.QuizViewModelFactory
 import com.abel.dynamoxquiz.ui.theme.DynamoxQuizTheme
 import androidx.compose.runtime.*
+import com.abel.dynamoxquiz.data.local.ScoreDao
+import com.abel.dynamoxquiz.di.DatabaseModule
 import com.abel.dynamoxquiz.presentation.StartScreen
 
 class MainActivity : ComponentActivity() {
@@ -27,8 +29,16 @@ class MainActivity : ComponentActivity() {
         val repository =
             RepositoryModule.provideQuizRepository()
 
+        val scoreDao =
+            DatabaseModule.provideScoreDao(
+                applicationContext
+            )
+
         val factory =
-            QuizViewModelFactory(repository)
+            QuizViewModelFactory(
+                repository,
+                scoreDao)
+
 
         val viewModel = ViewModelProvider(
             this,
@@ -39,11 +49,13 @@ class MainActivity : ComponentActivity() {
             var startedQuiz by remember {
                 mutableStateOf(false)
             }
-
             DynamoxQuizTheme {
                 if (!startedQuiz) {
                     StartScreen(
-                        onStartQuiz = {
+                        onStartQuiz = { nickname ->
+                            viewModel.setNickname(
+                                nickname
+                            )
                             startedQuiz = true
                         }
                     )
@@ -52,7 +64,6 @@ class MainActivity : ComponentActivity() {
                         viewModel = viewModel
                     )
                 }
-
             }
         }
     }
