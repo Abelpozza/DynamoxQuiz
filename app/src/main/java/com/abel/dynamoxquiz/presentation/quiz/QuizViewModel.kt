@@ -44,70 +44,38 @@ class QuizViewModel(
 
     val scores: StateFlow<List<ScoreEntity>> =
         _scores.asStateFlow()
-
     val score: StateFlow<Int> = _score.asStateFlow()
-
     private val _quizFinished = MutableStateFlow(false)
-
     val quizFinished: StateFlow<Boolean> = _quizFinished.asStateFlow()
-
     val isCorrect: StateFlow<Boolean?> =
         _isCorrect.asStateFlow()
-
     init {
 
         loadScores()
     }
-
-    private fun saveScore() {
-
-        viewModelScope.launch {
-
-            scoreDao.insertScore(
-
-                ScoreEntity(
-
-                    nickname =
-                        _nickname.value,
-
-                    score =
-                        _score.value
-                )
-            )
-        }
-    }
-
     fun setNickname(
         nickname: String
     ) {
-
         _nickname.value = nickname
     }
 
     fun loadScores() {
-
         viewModelScope.launch {
-
             _scores.value =
                 scoreDao.getAllScores()
         }
     }
     fun loadQuestion() {
-
         viewModelScope.launch {
-
             _uiState.value = QuizUiState(
                 isLoading = true
             )
-
             try {
-
                 val question = repository.getQuestion()
 
                 _uiState.value = QuizUiState(
                     question = question
                 )
-
             } catch (exception: Exception) {
 
                 _uiState.value = QuizUiState(
@@ -123,41 +91,25 @@ class QuizViewModel(
             _uiState.value.question?.id ?: return
 
         viewModelScope.launch {
-
             try {
-
                 val response =
                     repository.sendAnswer(
                         questionId = questionId,
                         answer = answer
                     )
-
-                println("RESPOSTA DA API -> $response")
-
                 _isCorrect.value =
                     response.result
-
                 if (response.result) {
-
                     _score.value++
                 }
-
                 if (_currentQuestion.value >= 10) {
 
-                   fun finishQuiz() {
-                       saveScore()
-
-                       loadScores()
-
-                       _quizFinished.value = true
-
-                   }
-
+                    finishQuiz()
                 } else {
 
                     _currentQuestion.value++
+                    loadQuestion()
                 }
-
             } catch (exception: Exception) {
 
                 _uiState.value = QuizUiState(
@@ -170,19 +122,26 @@ class QuizViewModel(
     fun restartQuiz() {
 
         _score.value = 0
-
         _currentQuestion.value = 1
-
         _quizFinished.value = false
-
         _isCorrect.value = null
-
         loadQuestion()
     }
     fun finishQuiz() {
 
-        saveScore()
+        viewModelScope.launch {
+            scoreDao.insertScore(
+                ScoreEntity(
+                    nickname =
+                        _nickname.value,
+                    score =
+                        _score.value
+                )
+            )
 
-        _quizFinished.value = true
+            _scores.value =
+                scoreDao.getAllScores()
+            _quizFinished.value = true
+        }
     }
 }

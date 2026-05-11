@@ -291,8 +291,6 @@ fun QuizScreen(
 
                                         answerChecked = false
 
-                                        viewModel.loadQuestion()
-
                                     } else {
 
                                         viewModel.finishQuiz()

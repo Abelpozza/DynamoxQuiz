@@ -76,4 +76,44 @@ class QuizViewModelTest {
                 viewModel.score.value
             )
         }
+    @Test
+    fun `restart quiz should reset states`() =
+        runTest {
+
+            coEvery {
+
+                repository.sendAnswer(
+                    any(),
+                    any()
+                )
+
+            } returns AnswerResponse(
+                result = true
+            )
+
+            viewModel.loadQuestion()
+
+            advanceUntilIdle()
+
+            viewModel.sendAnswer("A")
+
+            advanceUntilIdle()
+
+            viewModel.restartQuiz()
+
+            assertEquals(
+                0,
+                viewModel.score.value
+            )
+
+            assertEquals(
+                1,
+                viewModel.currentQuestion.value
+            )
+
+            assertEquals(
+                false,
+                viewModel.quizFinished.value
+            )
+        }
 }
