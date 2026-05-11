@@ -65,27 +65,6 @@ fun QuizScreen(
             Alignment.CenterHorizontally
     ) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp),
-            horizontalArrangement =
-                Arrangement.Start
-        ) {
-
-            Image(
-                painter = painterResource(
-                    id = R.drawable.dynamox_logo
-                ),
-                contentDescription =
-                    "Logo Dynamox",
-                modifier = Modifier
-                    .width(90.dp),
-                contentScale =
-                    ContentScale.Fit
-            )
-        }
-
         when {
             uiState.isLoading -> {
                 CircularProgressIndicator()
