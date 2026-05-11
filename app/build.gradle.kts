@@ -93,6 +93,15 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+    testImplementation("junit:junit:4.13.2")
+
+    testImplementation(
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
+    )
+
+    testImplementation(
+        "io.mockk:mockk:1.13.8"
+    )
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)

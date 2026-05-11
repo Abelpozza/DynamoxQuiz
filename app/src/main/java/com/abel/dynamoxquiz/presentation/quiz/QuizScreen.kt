@@ -53,6 +53,8 @@ fun QuizScreen(
     viewModel.quizFinished.collectAsState()
     val scores by
     viewModel.scores.collectAsState()
+    val nickname by
+    viewModel.nickname.collectAsState()
 
     Column(
         modifier = Modifier
@@ -96,11 +98,25 @@ fun QuizScreen(
                             fontWeight =
                                 FontWeight.Bold
                         )
+
+                        Spacer(
+                            modifier = Modifier
+                                .height(12.dp)
+                        )
+
+                        Text(
+
+                            text = "Parabéns, $nickname!",
+
+                            style = MaterialTheme
+                                .typography
+                                .titleLarge
+                        )
+
                         Spacer(
                             modifier = Modifier
                                 .height(24.dp)
                         )
-
                         Text(
                             text =
                                 "Sua pontuação foi:",
@@ -131,32 +147,25 @@ fun QuizScreen(
                         )
 
                         Text(
-
                             text = "🏆 Ranking",
-
                             style = MaterialTheme
                                 .typography
                                 .titleLarge,
 
                             fontWeight = FontWeight.Bold
                         )
-
                         Spacer(
                             modifier = Modifier
                                 .height(16.dp)
                         )
 
                         scores.take(5).forEach { scoreItem ->
-
                             Text(
-
                                 text =
                                     "${scoreItem.nickname} - ${scoreItem.score}/10",
-
                                 style = MaterialTheme
                                     .typography
                                     .bodyLarge,
-
                                 modifier = Modifier
                                     .padding(vertical = 4.dp)
                             )
@@ -174,7 +183,6 @@ fun QuizScreen(
                                 )
 
                         ) {
-
                             Text(
                                 "Reiniciar Quiz"
                             )

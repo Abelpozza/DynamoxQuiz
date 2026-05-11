@@ -55,7 +55,8 @@ class QuizViewModel(
         _isCorrect.asStateFlow()
 
     init {
-        loadQuestion()
+
+        loadScores()
     }
 
     private fun saveScore() {
