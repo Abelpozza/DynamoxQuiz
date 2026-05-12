@@ -125,7 +125,6 @@ git clone https://github.com/SEU_USUARIO/DynamoxQuiz.git
 3. Aguarde o Gradle sincronizar
 
 4. Execute em um emulador ou dispositivo físico
-
 ---
 
 ## Melhorias futuras
