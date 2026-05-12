@@ -57,7 +57,6 @@ class MainActivity : ComponentActivity() {
                                 nickname
                             )
                             startedQuiz = true
-
                             viewModel.loadQuestion()
 
                         }

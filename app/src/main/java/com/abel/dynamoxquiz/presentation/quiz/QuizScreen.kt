@@ -303,22 +303,19 @@ fun QuizScreen(
 
                         Button(
                             onClick = {
+
                                 if (!answerChecked) {
-
                                     selectedOption?.let {
-
                                         viewModel.sendAnswer(it)
-
                                         answerChecked = true
                                     }
 
                                 } else {
 
                                     if (currentQuestion < 10) {
-
                                         selectedOption = null
-
                                         answerChecked = false
+                                        viewModel.nextQuestion()
 
                                     } else {
 

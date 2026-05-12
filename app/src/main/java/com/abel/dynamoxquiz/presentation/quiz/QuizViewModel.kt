@@ -108,7 +108,6 @@ class QuizViewModel(
                 } else {
 
                     _currentQuestion.value++
-                    loadQuestion()
                 }
             } catch (exception: Exception) {
 
@@ -125,6 +124,12 @@ class QuizViewModel(
         _currentQuestion.value = 1
         _quizFinished.value = false
         _isCorrect.value = null
+        loadQuestion()
+    }
+    fun nextQuestion() {
+
+        _isCorrect.value = null
+
         loadQuestion()
     }
     fun finishQuiz() {
