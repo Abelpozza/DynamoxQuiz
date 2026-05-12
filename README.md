@@ -92,23 +92,23 @@ Foram implementados testes unitários no `QuizViewModel` para validar regras de 
 
 ### Tela inicial
 
-![Tela inicial](screenshots/start.png)
+![Tela inicial](screenshots/start.png.jpeg)
 
 ### Pergunta carregada
 
-![Pergunta](screenshots/question.png)
+![Pergunta](screenshots/question.png.jpeg)
 
 ### Resposta correta
 
-![Resposta correta](screenshots/correct.png)
+![Resposta correta](screenshots/correct.png.jpeg)
 
 ### Resposta incorreta
 
-![Resposta incorreta](screenshots/wrong.png)
+![Resposta incorreta](screenshots/wrong.png.jpeg)
 
 ### Resultado final e ranking
 
-![Resultado final](screenshots/result.png)
+![Resultado final](screenshots/result.png.jpeg)
 
 ---
 
