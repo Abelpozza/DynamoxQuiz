@@ -108,7 +108,7 @@ Foram implementados testes unitários no `QuizViewModel` para validar regras de 
 
 ### Resultado final e ranking
 
-![Resultado final](screenshots/result.png)
+![Resultado final](screenshots/result.png.png)
 
 ---
 
