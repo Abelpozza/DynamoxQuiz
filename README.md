@@ -117,7 +117,7 @@ Foram implementados testes unitários no `QuizViewModel` para validar regras de 
 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/DynamoxQuiz.git
+git clone https://github.com/AbelPozza/DynamoxQuiz.git
 ```
 
 2. Abra o projeto no Android Studio
