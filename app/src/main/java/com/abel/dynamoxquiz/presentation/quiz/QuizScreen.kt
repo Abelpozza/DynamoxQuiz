@@ -74,14 +74,43 @@ fun QuizScreen(
                 CircularProgressIndicator()
             }
             uiState.error != null -> {
-                Text(
-                    text =
-                        uiState.error
-                            ?: "Unknown error",
-                    color = MaterialTheme
-                        .colorScheme
-                        .error
-                )
+
+                Column(
+                    horizontalAlignment =
+                        Alignment.CenterHorizontally
+                ) {
+
+                    Text(
+                        text =
+                            uiState.error
+                                ?: "Unknown error",
+
+                        color = MaterialTheme
+                            .colorScheme
+                            .error
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .height(16.dp)
+                    )
+
+                    Button(
+                        onClick = {
+                            viewModel.loadQuestion()
+                        },
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                containerColor =
+                                    Color.Black,
+                                contentColor =
+                                    Color.White
+                            )
+                    ) {
+
+                        Text("Tentar novamente")
+                    }
+                }
             }
             uiState.question != null -> {
                 if (quizFinished) {
